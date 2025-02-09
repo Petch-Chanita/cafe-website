@@ -39,9 +39,9 @@ const Footer = () => {
             </a>
             <a
               className="text-sm hover:text-[#A0764B] transition-all cursor-pointer"
-              href="/#dishes"
+              href="/#menu"
             >
-              Dishes
+              Menu
             </a>
             
             
@@ -50,6 +50,13 @@ const Footer = () => {
         <div>
           <h1 className=" font-medium text-xl pb-4 pt-5 md:pt-0">Menu</h1>
           <nav className=" flex flex-col gap-2">
+            
+            <a
+              className="text-sm hover:text-[#A0764B] transition-all cursor-pointer"
+              href="/#recommend"
+            >
+              Recommend Menu
+            </a>
             <a
               className="text-sm hover:text-[#A0764B] transition-all cursor-pointer"
               href="/#dishes"
@@ -58,9 +65,9 @@ const Footer = () => {
             </a>
             <a
               className="text-sm hover:text-[#A0764B] transition-all cursor-pointer"
-              href="/#recommend"
+              href="/#drinks"
             >
-              Recommend Menu
+              Our Drinks
             </a>
           </nav>
         </div>

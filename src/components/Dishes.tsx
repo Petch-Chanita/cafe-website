@@ -66,7 +66,7 @@ const Dishes = () => {
   );
 
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center lg:px-32 px-5 pg-[#F8FAFD]">
+    <div id="dishes" className="min-h-screen flex flex-col justify-center items-center lg:px-32 px-5 pg-[#F8FAFD]">
       <h1 className="text-4xl font-semibold text-center pt-24 pb-10">
         Our Dishes
       </h1>
