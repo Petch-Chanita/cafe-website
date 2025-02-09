@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+/* h1, p, body */
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #3e3425e6;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+  }
+  
+}
+
+/* text-center, p-4, flex */
+@layer utilities {
+  .flex {
+    display: flex;
+  }
+  .items-center {
+    align-items: center;
+  }
+
+  .hover\:bg-blue-400 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-blue-400);
+      }
+    }
+  }
+}
+
+@layer component {
+    .bg-textHead {
+        background-color: rgba(33, 31, 31, 0.264);
+        border-radius: 10px;
+        padding: 30px;
+    }
+
+}
+
+/* สี ฟอนต์ ระยะห่าง */
+@layer theme {
+  .bg-customBrown {
+    background-color: #DEAA79;
+  }
+  .bg-customPink {
+    background-color: #FFB38E;
+  }
+  .text-white {
+    color: var(--color-white);
+  }
+}
