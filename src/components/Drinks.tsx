@@ -13,7 +13,7 @@ const Drinks = () => {
     { img: img1, title: "Drink 1", price: "$10.99" },
     { img: img2, title: "Drink 2", price: "$12.99" },
     { img: img3, title: "Drink 3", price: "$10.99" },
-    { img: img4, title: "Drink 1", price: "$11.99" },
+    { img: img4, title: "Drink 4", price: "$11.99" },
     { img: img5, title: "Drink 5", price: "$10.99" },
     { img: img6, title: "Drink 6", price: "$12.99" },
     { img: img7, title: "Drink 7", price: "$10.99" },
@@ -38,7 +38,7 @@ const Drinks = () => {
   }, []);
 
   // Determine items per page based on screen size
-  const itemsPerPage = windowWidth >= 1024 ? 3 : 1; // 6 items on larger screens, 1 item on mobile
+  const itemsPerPage = windowWidth >= 1024 ? 3 : 1; // 3 items on larger screens, 1 item on mobile
 
   // Calculate the total number of slides
   const totalSlides = Math.ceil(drinksData.length / itemsPerPage);

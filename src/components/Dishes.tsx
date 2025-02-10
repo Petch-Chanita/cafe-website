@@ -40,7 +40,7 @@ const Dishes = () => {
   }, []);
 
   // Determine items per page based on screen size
-  const itemsPerPage = windowWidth >= 1024 ? 5 : 1; // 6 items on larger screens, 1 item on mobile
+  const itemsPerPage = windowWidth >= 1024 ? 3 : 1; // 3 items on larger screens, 1 item on mobile
 
   // Calculate the total number of slides
   const totalSlides = Math.ceil(dishesData.length / itemsPerPage);
@@ -83,7 +83,7 @@ const Dishes = () => {
             />
           ))}
           {/* Add empty divs if fewer than itemsPerPage */}
-          {currentDishes.length < itemsPerPage &&
+          {/* {currentDishes.length < itemsPerPage &&
             Array.from({ length: itemsPerPage - currentDishes.length }).map(
               (_, idx) => (
                 <div
@@ -91,7 +91,7 @@ const Dishes = () => {
                   className={`w-full lg:w-1/4 h-[320px] lg:h-[320px]`}
                 ></div>
               )
-            )}
+            )} */}
         </div>
 
         {/* Navigation buttons */}

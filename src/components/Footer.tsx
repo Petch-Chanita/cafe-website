@@ -69,6 +69,12 @@ const Footer = () => {
             >
               Our Drinks
             </a>
+            <a
+              className="text-sm hover:text-[#A0764B] transition-all cursor-pointer"
+              href="/#desserts"
+            >
+              Our Desserts
+            </a>
           </nav>
         </div>
         <div>
