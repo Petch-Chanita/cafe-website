@@ -20,25 +20,25 @@ const Footer = () => {
           <nav className=" flex flex-col gap-2">
             <a
               className="text-sm hover:text-[#A0764B] transition-all cursor-pointer"
-              href={import.meta.env.BASE_URL + "/#home"}
+              href={import.meta.env.BASE_URL + "#home"}
             >
               Home
             </a>
             <a
               className="text-sm hover:text-[#A0764B] transition-all cursor-pointer"
-              href={import.meta.env.BASE_URL+ "/#recommend"}
+              href={import.meta.env.BASE_URL+ "#recommend"}
             >
               Recommend Menu
             </a>
             <a
               className="text-sm hover:text-[#A0764B] transition-all cursor-pointer"
-              href={import.meta.env.BASE_URL+ "/#about"}
+              href={import.meta.env.BASE_URL+ "#about"}
             >
               About
             </a>
             <a
               className="text-sm hover:text-[#A0764B] transition-all cursor-pointer"
-              href={import.meta.env.BASE_URL+ "/#menu"}
+              href={import.meta.env.BASE_URL+ "#menu"}
             >
               Menu
             </a>
@@ -52,25 +52,25 @@ const Footer = () => {
             
             <a
               className="text-sm hover:text-[#A0764B] transition-all cursor-pointer"
-              href={import.meta.env.BASE_URL+ "/#recommend"}
+              href={import.meta.env.BASE_URL+ "#recommend"}
             >
               Recommend Menu
             </a>
             <a
               className="text-sm hover:text-[#A0764B] transition-all cursor-pointer"
-              href={import.meta.env.BASE_URL+ "/#dishes"}
+              href={import.meta.env.BASE_URL+ "#dishes"}
             >
               Our Dishes
             </a>
             <a
               className="text-sm hover:text-[#A0764B] transition-all cursor-pointer"
-              href={import.meta.env.BASE_URL+ "/#drinks"}
+              href={import.meta.env.BASE_URL+ "#drinks"}
             >
               Our Drinks
             </a>
             <a
               className="text-sm hover:text-[#A0764B] transition-all cursor-pointer"
-              href={import.meta.env.BASE_URL+ "/#desserts"}
+              href={import.meta.env.BASE_URL+ "#desserts"}
             >
               Our Desserts
             </a>
