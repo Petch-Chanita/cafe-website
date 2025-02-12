@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import img1 from "../assets/img/dishes1.jpg";
 import img2 from "../assets/img/dishes2.jpg";
 import img3 from "../assets/img/dishes3.jpg";
@@ -8,6 +8,7 @@ import img6 from "../assets/img/dishes6.jpg";
 import img7 from "../assets/img/dishes7.jpg";
 import img8 from "../assets/img/dishes8.jpg";
 import DishesCard from "../layouts/DishesCard";
+import { AnimatePresence, motion } from "framer-motion";
 
 const Dishes = () => {
   const dishesData = [
@@ -40,7 +41,7 @@ const Dishes = () => {
   }, []);
 
   // Determine items per page based on screen size
-  const itemsPerPage = windowWidth >= 1024 ? 3 : 1; // 3 items on larger screens, 1 item on mobile
+  const itemsPerPage = windowWidth >= 1600 ? 5 : windowWidth >= 1024 ? 3 : windowWidth >= 640 ? 2 : 1; 
 
   // Calculate the total number of slides
   const totalSlides = Math.ceil(dishesData.length / itemsPerPage);
@@ -71,27 +72,23 @@ const Dishes = () => {
         Our Dishes
       </h1>
 
-      <div className="relative">
-        <div className="flex flex-wrap gap-8 justify-center">
-          {/* Display dishes with appropriate layout based on screen size */}
-          {currentDishes.map((dish, index) => (
-            <DishesCard
-              key={index}
-              img={dish.img}
-              title={dish.title}
-              price={dish.price}
-            />
-          ))}
-          {/* Add empty divs if fewer than itemsPerPage */}
-          {/* {currentDishes.length < itemsPerPage &&
-            Array.from({ length: itemsPerPage - currentDishes.length }).map(
-              (_, idx) => (
-                <div
-                  key={idx}
-                  className={`w-full lg:w-1/4 h-[320px] lg:h-[320px]`}
-                ></div>
-              )
-            )} */}
+      <div className="relative p-15 w-full flex justify-center">
+        {/* Slide Container */}
+        <div className="overflow-hidden w-full max-w-5xl">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentIndex}
+              className="flex gap-8 justify-center"
+              initial={{ opacity: 0 }} // เริ่มจากโปร่งใส
+              animate={{ opacity: 1 }} // ค่อยๆ ปรากฏ
+              exit={{ opacity: 0 }} // ค่อยๆ จางหาย
+              transition={{ duration: 0.2, ease: "easeInOut" }} // ตั้งเวลาค่อยๆ โชว์
+            >
+              {currentDishes.map((dish, index) => (
+                <DishesCard key={index} img={dish.img} title={dish.title} price={dish.price} />
+              ))}
+            </motion.div>
+          </AnimatePresence>
         </div>
 
         {/* Navigation buttons */}

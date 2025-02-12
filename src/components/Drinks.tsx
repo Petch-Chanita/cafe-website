@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import img1 from "../assets/img/drink8.jpg";
 import img2 from "../assets/img/drink1.jpg";
 import img3 from "../assets/img/drink2.jpg";
@@ -7,6 +7,7 @@ import img5 from "../assets/img/drink4.jpg";
 import img6 from "../assets/img/drink5.jpg";
 import img7 from "../assets/img/drink7.jpg";
 import DishesCard from "../layouts/DishesCard";
+import { AnimatePresence, motion } from "framer-motion";
 
 const Drinks = () => {
   const drinksData = [
@@ -38,7 +39,7 @@ const Drinks = () => {
   }, []);
 
   // Determine items per page based on screen size
-  const itemsPerPage = windowWidth >= 1024 ? 3 : 1; // 3 items on larger screens, 1 item on mobile
+  const itemsPerPage = windowWidth >= 1600 ? 5 : windowWidth >= 1024 ? 3 : windowWidth >= 640 ? 2 : 1; 
 
   // Calculate the total number of slides
   const totalSlides = Math.ceil(drinksData.length / itemsPerPage);
@@ -57,8 +58,8 @@ const Drinks = () => {
     }
   };
 
-  // Calculate the dishes to display for the current slide
-  const currentDishes = drinksData.slice(
+  // Calculate the drink to display for the current slide
+  const currentDrinks = drinksData.slice(
     currentIndex * itemsPerPage,
     (currentIndex + 1) * itemsPerPage
   );
@@ -69,17 +70,23 @@ const Drinks = () => {
         Our Drinks
       </h1>
 
-      <div className="relative">
-        <div className="flex flex-wrap gap-8 justify-center">
-          {/* Display dishes with appropriate layout based on screen size */}
-          {currentDishes.map((dish, index) => (
-            <DishesCard
-              key={index}
-              img={dish.img}
-              title={dish.title}
-              price={dish.price}
-            />
-          ))}
+      <div className="relative p-15 w-full flex justify-center">
+        {/* Slide Container */}
+        <div className="overflow-hidden w-full max-w-5xl">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentIndex}
+              className="flex gap-8 justify-center"
+              initial={{ opacity: 0 }} // เริ่มจากโปร่งใส
+              animate={{ opacity: 1 }} // ค่อยๆ ปรากฏ
+              exit={{ opacity: 0 }} // ค่อยๆ จางหาย
+              transition={{ duration: 0.2, ease: "easeInOut" }} // ตั้งเวลาค่อยๆ โชว์
+            >
+              {currentDrinks.map((drink, index) => (
+                <DishesCard key={index} img={drink.img} title={drink.title} price={drink.price} />
+              ))}
+            </motion.div>
+          </AnimatePresence>
         </div>
 
         {/* Navigation buttons */}

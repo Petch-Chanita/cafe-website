@@ -45,6 +45,7 @@ export default function Navbars() {
                 alt="The Roasted Haven"
                 src={LogoIcon}
                 className="h-12 w-auto"
+                loading="lazy"
               />
             </div>
             <div className="hidden sm:ml-6 sm:block">

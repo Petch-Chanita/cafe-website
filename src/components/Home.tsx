@@ -1,5 +1,3 @@
-import React from "react";
-import { Button } from "@headlessui/react";
 import ImageBG from "../assets/img/bg1.jpg";
 
 const Home = () => {

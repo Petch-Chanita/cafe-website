@@ -1,4 +1,3 @@
-import React from "react";
 import Dishes from "./Dishes";
 import Drinks from "./Drinks";
 import Desserts from "./Desserts";

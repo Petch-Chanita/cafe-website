@@ -1,7 +1,3 @@
-import React from "react";
-import { Button } from "@headlessui/react";
-import img1 from "../assets/img/aboutImg5.png";
-import img2 from "../assets/img/aboutImg3.png";
 import img3 from "../assets/img/img9.png";
 
 const About = () => {
@@ -11,6 +7,7 @@ const About = () => {
         src={img3}
         alt="img"
         className="w-75 sm:w-[300px] lg:w-[500px] h-auto"
+        loading="lazy"
       />
 
       <div className="space-y-4 lg:pt-14">
@@ -35,16 +32,6 @@ const About = () => {
           💕✨
         </p>
       </div>
-
-      {/* <div className="flex flex-col w-full h-full">
-        <img
-          src={img2}
-          alt="img2"
-          className="pt-14"
-          width={300}
-          height={300}
-        />
-      </div> */}
     </div>
   );
 };

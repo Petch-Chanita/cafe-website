@@ -1,4 +1,3 @@
-import React from "react";
 import { BsFacebook } from "react-icons/bs";
 import { RiTwitterXFill } from "react-icons/ri";
 import { BsInstagram } from "react-icons/bs";
