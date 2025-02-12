@@ -20,25 +20,25 @@ const Footer = () => {
           <nav className=" flex flex-col gap-2">
             <a
               className="text-sm hover:text-[#A0764B] transition-all cursor-pointer"
-              href="/#home"
+              href={import.meta.env.BASE_URL + "/#home"}
             >
               Home
             </a>
             <a
               className="text-sm hover:text-[#A0764B] transition-all cursor-pointer"
-              href="/#recommend"
+              href={import.meta.env.BASE_URL+ "/#recommend"}
             >
               Recommend Menu
             </a>
             <a
               className="text-sm hover:text-[#A0764B] transition-all cursor-pointer"
-              href="/#about"
+              href={import.meta.env.BASE_URL+ "/#about"}
             >
               About
             </a>
             <a
               className="text-sm hover:text-[#A0764B] transition-all cursor-pointer"
-              href="/#menu"
+              href={import.meta.env.BASE_URL+ "/#menu"}
             >
               Menu
             </a>
@@ -52,25 +52,25 @@ const Footer = () => {
             
             <a
               className="text-sm hover:text-[#A0764B] transition-all cursor-pointer"
-              href="/#recommend"
+              href={import.meta.env.BASE_URL+ "/#recommend"}
             >
               Recommend Menu
             </a>
             <a
               className="text-sm hover:text-[#A0764B] transition-all cursor-pointer"
-              href="/#dishes"
+              href={import.meta.env.BASE_URL+ "/#dishes"}
             >
               Our Dishes
             </a>
             <a
               className="text-sm hover:text-[#A0764B] transition-all cursor-pointer"
-              href="/#drinks"
+              href={import.meta.env.BASE_URL+ "/#drinks"}
             >
               Our Drinks
             </a>
             <a
               className="text-sm hover:text-[#A0764B] transition-all cursor-pointer"
-              href="/#desserts"
+              href={import.meta.env.BASE_URL+ "/#desserts"}
             >
               Our Desserts
             </a>
@@ -81,19 +81,19 @@ const Footer = () => {
           <nav className=" flex flex-col gap-2">
             <a
               className="text-sm hover:text-[#A0764B] transition-all cursor-pointer"
-              href="/"
+              href={import.meta.env.BASE_URL+ "/"}
             >
               YaiRakCafé@email.com
             </a>
             <a
               className="text-sm hover:text-[#A0764B] transition-all cursor-pointer"
-              href="/"
+              href={import.meta.env.BASE_URL+ "/"}
             >
               +11 111 111 111
             </a>
             <a
               className="flex items-center gap-2 hover:text-[#A0764B] transition-all cursor-pointer"
-              href="/"
+              href={import.meta.env.BASE_URL+ "/"}
             >
               <BsFacebook />
               <span className="text-sm">Yai Rak Café</span>
@@ -101,7 +101,7 @@ const Footer = () => {
 
             <a
               className="flex items-center gap-2 hover:text-[#A0764B] transition-all cursor-pointer"
-              href="/"
+              href={import.meta.env.BASE_URL+ "/"}
             >
               <RiTwitterXFill />
               <span className="text-sm">Yai Rak Café</span>
@@ -109,7 +109,7 @@ const Footer = () => {
 
             <a
               className="flex items-center gap-2 hover:text-[#A0764B] transition-all cursor-pointer"
-              href="/"
+              href={import.meta.env.BASE_URL+ "/"}
             >
               <BsInstagram />
               <span className="text-sm">Yai Rak Café</span>

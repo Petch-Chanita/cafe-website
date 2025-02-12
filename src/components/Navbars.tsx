@@ -53,7 +53,7 @@ export default function Navbars() {
                 {navigation.map((item) => (
                   <a
                     key={item.name}
-                    href={item.href}
+                    href={`${import.meta.env.BASE_URL}${item.href}`}
                     aria-current={item.current ? "page" : undefined}
                     className={classNames(
                       item.current
@@ -77,7 +77,7 @@ export default function Navbars() {
             <DisclosureButton
               key={item.name}
               as="a"
-              href={item.href}
+              href={`${import.meta.env.BASE_URL}${item.href}`}
               aria-current={item.current ? "page" : undefined}
               className={classNames(
                 item.current
