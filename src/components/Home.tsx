@@ -9,11 +9,7 @@ const Home = () => {
       <div className="w-full flex lg:flex-col gap-20 justify-between items-center ">
         <div className="flex flex-col lg:flex-row gap-10">
           {/* w-full lg:w-1/3 space-y-5 */}
-          <h1 className="text-white font-semibold text-6xl lg:text-9xl">YAI</h1>
-          <h1 className="text-white font-semibold text-6xl lg:text-9xl">RAK</h1>
-          <h1 className="text-white font-semibold text-6xl lg:text-9xl">
-            CAFÉ
-          </h1>
+          <h1 className="text-white font-semibold text-6xl lg:text-8xl">YAI RAK CAFÉ</h1>
           {/* <div>
           <Button className="rounded-5xl bg-sky-600 py-2 px-4 text-sm text-white data-[hover]:bg-sky-500 data-[active]:bg-sky-700">
             Save changes

@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 /* h1, p, body */
 @layer base {
@@ -17,7 +18,6 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     z-index: 1000;
   }
-  
 }
 
 /* text-center, p-4, flex */
@@ -39,21 +39,24 @@
 }
 
 @layer component {
-    .bg-textHead {
-        background-color: rgba(33, 31, 31, 0.264);
-        border-radius: 10px;
-        padding: 30px;
-    }
-
+  .bg-textHead {
+    background-color: rgba(33, 31, 31, 0.264);
+    border-radius: 10px;
+    padding: 30px;
+  }
+  .sub-menu {
+    overflow: hidden;
+    transition: height 300ms;
+  }
 }
 
 /* สี ฟอนต์ ระยะห่าง */
 @layer theme {
   .bg-customBrown {
-    background-color: #DEAA79;
+    background-color: #deaa79;
   }
   .bg-customPink {
-    background-color: #FFB38E;
+    background-color: #ffb38e;
   }
   .text-white {
     color: var(--color-white);

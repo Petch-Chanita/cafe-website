@@ -1,0 +1,64 @@
+/* Light Mode */
+.light {
+  --theme-bg: #f8f8f8; 
+  --theme-text: #1f2937; 
+  --sidebar-bg: #ffffff; /* bg-gray-100 */
+  --sidebar-text: #1f2937; /* text-gray-800 */
+  --sidebar-hover: #e0e7ff; /* hover:bg-indigo-50 */
+  --active-bg: #e0e7ff; /* bg-indigo-100 */
+  --button-bg: #e5e7eb; /* bg-gray-200 */
+  --button-text: #374151; /* text-gray-700 */
+  --button-hover: #d1d5db; /* hover:bg-gray-300 */
+}
+
+/* Dark Mode */
+.dark {
+  --theme-bg: #1b2430; 
+  --theme-text: #e5e7eb; 
+  --sidebar-bg: #1f2937; /* bg-gray-900 */
+  --sidebar-text: #e5e7eb; /* text-gray-200 */
+  --sidebar-hover: #374151; /* hover:bg-gray-700 */
+  --active-bg: #4f46e5; /* bg-indigo-900 */
+  --button-bg: #374151; /* bg-gray-800 */
+  --button-text: #ffffff; /* text-white */
+  --button-hover: #4b5563; /* hover:bg-gray-600 */
+}
+
+/* ใช้ตัวแปรสำหรับทุกอย่าง */
+
+.sidebar {
+  background-color: var(--sidebar-bg);
+  color: var(--sidebar-text);
+}
+
+.submenu-item {
+  background-color:var(--sidebar-bg);
+  color: var(--sidebar-text);
+}
+
+.sidebar-item:hover {
+  background-color: var(--sidebar-hover);
+}
+
+.sidebar-item.active {
+  background-color: var(--active-bg);
+}
+
+.theme {
+  background-color: var(--theme-bg);
+  color: var(--theme-text);
+}
+
+.theme-toggle {
+  background-color: var(--button-bg);
+  color: var(--button-text);
+}
+
+.theme-toggle:hover {
+  background-color: var(--button-hover);
+}
+
+.sidebar-item.collapsed {
+  justify-content: center;
+  padding: 8px;
+}

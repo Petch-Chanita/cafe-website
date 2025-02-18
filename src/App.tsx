@@ -1,37 +1,34 @@
-import Navbar from "./components/Navbars";
-import Home from "./components/Home";
-import About from "./components/About";
-import RecommendMenu from "./components/RecommendMenu";
-import Footer from "./components/Footer";
-import Menu from "./components/Menu";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+
+import Publish from "./components/Publish";
+import PrivateRoute from "./components/admin/PrivateRoute";
+import AdminDashboard from "./components/admin/AdminDashboard";
+import Login from "./components/admin/Login";
+import HomePage from "./components/admin/home/HomePage";
+import ProfilePage from "./components/admin/profile/ProfilePage";
+import MenuManagement from "./components/admin/menu-management/MenuManagement";
+import EmployeesPage from "./components/admin/employees/EmployeesPage";
+import SettingsPage from "./components/admin/settings/SettingsPage";
 
 const App = () => {
   return (
-    <div className="pg-[#F8FAFD]">
-      <Navbar />
+    <Router basename="cafe-website">
+      <Routes>
+        <Route path="/" element={<Publish />} />
 
-      <main >
-        <section id="home">
-          <Home />
-        </section>
-
-        <section id="recommend">
-          <RecommendMenu />
-        </section>
-
-        <section id="about">
-          <About />
-        </section>
-
-        <section id="menu">
-          <Menu />
-        </section>
-        
-        
-      </main>
-
-      <Footer />
-    </div>
+        <Route path="/login-admin" element={<Login />} />
+        <Route element={<PrivateRoute />}>
+          <Route path="/admin-dashboard" element={<AdminDashboard />}>
+            <Route index element={<HomePage /> } /> 
+            <Route path="home" element={<HomePage />} />
+            <Route path="profile" element={<ProfilePage />} />
+            <Route path="menu-management" element={<MenuManagement />} />
+            <Route path="employees" element={<EmployeesPage />} />
+            <Route path="settings" element={<SettingsPage />} />
+          </Route>
+        </Route>
+      </Routes>
+    </Router>
   );
 };
 
