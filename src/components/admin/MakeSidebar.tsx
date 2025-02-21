@@ -17,7 +17,6 @@ function MakeSidebar() {
   const navigate = useNavigate(); // ✅ ใช้เพื่อเปลี่ยนหน้า
   const location = useLocation(); // ✅ ใช้เพื่อเช็คเส้นทางปัจจุบัน
   const [expanded, setExpanded] = useState(true);
-  const [pathname, setPathname] = useState(location.pathname);
 
   const [theme, setTheme] = useState(() => {
     if (typeof window !== "undefined") {
@@ -31,9 +30,6 @@ function MakeSidebar() {
     return "light";
   });
 
-  useEffect(() => {
-    setPathname("/home");
-  }, []);
 
   useEffect(() => {
     const html = document.documentElement;
