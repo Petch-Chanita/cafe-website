@@ -24,7 +24,7 @@ const About = () => {
 
     };
     fetchAbout();
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="min-h-screen flex flex-col lg:flex-row justify-center items-center lg:px-32 px-5 pg-[#F8FAFD]">

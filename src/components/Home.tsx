@@ -1,9 +1,30 @@
+import { useEffect } from "react";
 import ImageBG from "../assets/img/bg1.jpg";
 import { useCafe } from "../contexts/CafeContext";
-
+import { checkImageValid, getCafeData } from "../service/cafeService";
 
 const Home = () => {
-  const { state } = useCafe();
+  const { state, dispatch } = useCafe();
+
+  useEffect(() => {
+    const fetchCafe = async () => {
+      try {
+        const cafeData = await getCafeData(
+          `${import.meta.env.VITE_APP_CAFE_ID}`
+        );
+        dispatch({ type: "FETCH_SUCCESS", payload: cafeData });
+
+        if (cafeData?.image_url) {
+          const isValid = await checkImageValid(cafeData.image_url);
+          dispatch({ type: "SET_VALID_IMAGE", payload: isValid });
+        }
+      } catch (error: any) {
+        dispatch({ type: "FETCH_ERROR", payload: error.message });
+      }
+    };
+
+    fetchCafe();
+  }, [dispatch]);
 
   if (state.loading) {
     return (
@@ -21,11 +42,14 @@ const Home = () => {
     );
   }
 
-
   return (
     <div
       className="min-h-screen flex flex-col lg:flex-row justify-center items-center lg:px-32 px-5 bg-cover bg-no-repeat"
-      style={{ backgroundImage: `url(${state.validImage ? state.cafeData?.image_url : ImageBG})` }}
+      style={{
+        backgroundImage: `url(${
+          state.validImage ? state.cafeData?.image_url : ImageBG
+        })`,
+      }}
     >
       <div className="w-full flex lg:flex-col gap-20 justify-between items-center ">
         <div className="flex flex-col lg:flex-row gap-10">

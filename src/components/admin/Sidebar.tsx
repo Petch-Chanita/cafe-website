@@ -2,6 +2,7 @@ import {
   ArrowRightIcon,
   ArrowLeftIcon,
 } from "@heroicons/react/24/outline";
+import {Avatar} from "@heroui/react";
 
 import "./theme.css";
 
@@ -45,15 +46,11 @@ function Sidebar({ children, expanded, setExpanded }: any) {
           <ul className="flex-1 px-3">{children}</ul>
 
           <div className="flex p-3">
-            <img
-              src="https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true&name=Mark+Ruffalo"
-              alt=""
-              className="h-10 w-10 rounded-md"
-            />
+            <Avatar isBordered color="success" name="Mark+Ruffalo" src="https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true&name=Mark+Ruffalo" />
             <div
               className={`
                 flex items-center justify-between
-                overflow-hidden transition-all ${expanded ? "ml-3 w-52" : "w-0"}
+                overflow-hidden transition-all ${expanded ? "ml-3 w-40" : "w-0"}
             `}
             >
               <div className="leading-4">
