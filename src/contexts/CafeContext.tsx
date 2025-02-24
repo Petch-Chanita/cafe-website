@@ -1,7 +1,6 @@
 // contexts/CafeContext.tsx
-import { createContext, useContext, useEffect, useReducer } from "react";
+import { createContext, useContext, useReducer } from "react";
 import { cafeReducer, initialCafeState, CafeState, CafeAction } from "./cafeReducer";
-import { checkImageValid, getCafeData } from "../service/cafeService";
 
 interface CafeContextType {
   state: CafeState;
