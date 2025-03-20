@@ -23,6 +23,4 @@ Check out the live version of the website here: [Cafe Website Demo](https://petc
 React
 TypeScript
 Vite
-
-# License
-MIT License.
+Tailwind
