@@ -16,9 +16,6 @@ To start the app locally, run:
 npm run dev
 ```
 
-## Live Demo
-Check out the live version of the website here: [Cafe Website Demo](https://petch-chanita.github.io/cafe-website/)
-
 ## Technologies Used
 React
 TypeScript
