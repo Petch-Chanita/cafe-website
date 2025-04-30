@@ -1,8 +1,5 @@
-import {
-  ArrowRightIcon,
-  ArrowLeftIcon,
-} from "@heroicons/react/24/outline";
-import {Avatar} from "@heroui/react";
+import { ArrowRightIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
+import { Avatar } from "@heroui/react";
 
 import "./theme.css";
 
@@ -16,7 +13,7 @@ function Sidebar({ children, expanded, setExpanded }: any) {
         }`}
       />
       <aside
-        className={`sidebar box-border h-screen transition-all ${
+        className={`sidebar box-border h-screen transition-all${
           expanded ? "w-5/6 sm:w-64" : "w-full sm:w-20"
         }`}
       >
@@ -29,8 +26,8 @@ function Sidebar({ children, expanded, setExpanded }: any) {
               }`}
               alt=""
             />
-            <div >
-            {/* className={`${expanded ? "" : "hidden sm:block"}`} */}
+            <div>
+              {/* className={`${expanded ? "" : "hidden sm:block"}`} */}
               <button
                 onClick={() => setExpanded((curr: boolean) => !curr)}
                 className="rounded-lg p-1.5"
@@ -46,7 +43,12 @@ function Sidebar({ children, expanded, setExpanded }: any) {
           <ul className="flex-1 px-3">{children}</ul>
 
           <div className="flex p-3">
-            <Avatar isBordered color="success" name="Mark+Ruffalo" src="https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true&name=Mark+Ruffalo" />
+            <Avatar
+              isBordered
+              color="success"
+              name="Mark+Ruffalo"
+              src="https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true&name=Mark+Ruffalo"
+            />
             <div
               className={`
                 flex items-center justify-between

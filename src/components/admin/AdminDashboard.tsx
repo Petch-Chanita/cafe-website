@@ -1,19 +1,14 @@
 import { Outlet } from "react-router-dom";
-import MakeSidebar from "./MakeSidebar";
 import "./theme.css";
 
 const AdminDashboard = () => {
   
   return (
-    <div className="flex theme">
-    {/* Sidebar */}
-    <MakeSidebar/>
 
-    {/* Main Content */}
-      <div className="flex-1 p-5 theme">
+    /* Main Content */ 
+      <div className="flex-1 p-5 theme overflow-hidden">
         <Outlet/>
       </div>
-  </div>
   );
 };
 

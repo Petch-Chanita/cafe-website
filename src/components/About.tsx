@@ -12,6 +12,8 @@ const About = () => {
         const aboutData = await getAboutByCafeID(
           `${import.meta.env.VITE_APP_CAFE_ID}`
         );
+        console.log("aboutData",aboutData);
+        
         dispatch({ type: "FETCH_SUCCESS", payload: aboutData });
 
         if (aboutData?.image_url) {
@@ -31,7 +33,7 @@ const About = () => {
       <img
         src={state.validImage ? state.aboutData?.image_url : Image}
         alt="img"
-        className="w-75 sm:w-[300px] lg:w-[500px] h-auto"
+        className="w-100 sm:w-[200] lg:w-[500] h-auto"
         loading="lazy"
       />
 

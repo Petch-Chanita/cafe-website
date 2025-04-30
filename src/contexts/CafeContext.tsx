@@ -1,20 +1,34 @@
 // contexts/CafeContext.tsx
-import { createContext, useContext, useReducer } from "react";
-import { cafeReducer, initialCafeState, CafeState, CafeAction } from "./cafeReducer";
+import { createContext, useContext, useState } from "react";
 
 interface CafeContextType {
-  state: CafeState;
-  dispatch: React.Dispatch<CafeAction>;
+  cafeData: any;
+  setCafeData: (cafeData: any) => void;
+  products: any;
+  setProducts: (products: any) => void;
 }
 
 const CafeContext = createContext<CafeContextType | undefined>(undefined);
 
-
 // Provider Component
-export const CafeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [state, dispatch] = useReducer(cafeReducer, initialCafeState);
+export const CafeProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  const [cafeData, setCafeData] = useState([]);
+  const [products, setProducts] = useState([]);
 
-  return <CafeContext.Provider value={{ state, dispatch }}>{children}</CafeContext.Provider>;
+  return (
+    <CafeContext.Provider
+      value={{
+        cafeData,
+        setCafeData,
+        products,
+        setProducts,
+      }}
+    >
+      {children}
+    </CafeContext.Provider>
+  );
 };
 
 // Hook สำหรับใช้ CafeContext

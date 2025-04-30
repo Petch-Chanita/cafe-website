@@ -9,14 +9,18 @@ import {
   UsersIcon,
   ShoppingBagIcon,
   Bars3BottomLeftIcon,
+  ArrowRightOnRectangleIcon 
 } from "@heroicons/react/24/outline";
 import Sidebar from "./Sidebar";
 import SidebarItem from "./SidebarItem";
+import LogoutModal from "./settings/LogoutModal";
+import { useDisclosure } from "@heroui/react";
 
 function MakeSidebar() {
   const navigate = useNavigate(); // ✅ ใช้เพื่อเปลี่ยนหน้า
   const location = useLocation(); // ✅ ใช้เพื่อเช็คเส้นทางปัจจุบัน
   const [expanded, setExpanded] = useState(true);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [theme, setTheme] = useState(() => {
     if (typeof window !== "undefined") {
@@ -48,6 +52,17 @@ function MakeSidebar() {
     setTheme((prevTheme: any) => (prevTheme === "dark" ? "light" : "dark"));
   };
 
+
+  const handleLogout = () => {
+    console.log("handleLogout");
+    localStorage.removeItem("admin_token");
+    localStorage.removeItem("isAdmin");
+    localStorage.removeItem("theme");
+    onClose();
+    window.location.reload();
+
+  };
+
   const navBarItems = [
     {
       icon: <HomeIcon />,
@@ -55,24 +70,24 @@ function MakeSidebar() {
       keyId: "home",
       path: "/home",
     },
-    {
-      icon: <UserIcon />,
-      text: "Profile",
-      keyId: "profile",
-      path: "/profile",
-    },
+    // {
+    //   icon: <UserIcon />,
+    //   text: "Profile",
+    //   keyId: "profile",
+    //   path: "/profile",
+    // },
     {
       icon: <ShoppingBagIcon />,
       text: "Menu Management",
       keyId: "menu-management",
       path: "/menu-management",
     },
-    {
-      icon: <UsersIcon />,
-      text: "Employees",
-      keyId: "employees",
-      path: "/employees",
-    },
+    // {
+    //   icon: <UsersIcon />,
+    //   text: "Employees",
+    //   keyId: "employees",
+    //   path: "/employees",
+    // },
     {
       icon: <CogIcon />,
       text: "Settings",
@@ -89,10 +104,16 @@ function MakeSidebar() {
           onClick: toggleTheme,
         },
         {
-          icon: <Bars3BottomLeftIcon />,
-          text: "Description",
-          onClick: () => navigate("/admin-dashboard/settings"),
+          icon: <ArrowRightOnRectangleIcon  />,
+
+          text: "Sign out",
+          onClick: onOpen,
         },
+        // {
+        //   icon: <Bars3BottomLeftIcon />,
+        //   text: "Pages",
+        //   onClick: () => navigate("/admin-dashboard/settings"),
+        // },
       ],
     },
   ];
@@ -118,6 +139,8 @@ function MakeSidebar() {
           }
         />
       ))}
+
+      <LogoutModal isOpen={isOpen} onOk={handleLogout} onCancel={onClose} />
     </Sidebar>
   );
 }

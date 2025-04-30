@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Navigate, Outlet } from "react-router-dom";
+import MakeSidebar from "./MakeSidebar";
 
 const PrivateRoute = () => {
   const [isLoading, setIsLoading] = useState(true); // สถานะโหลด
@@ -17,7 +18,7 @@ const PrivateRoute = () => {
 
       try {
         // ตรวจสอบ token ว่าถูกต้องหรือไม่
-        const decodedToken = JSON.parse(atob(token.split('.')[1])); // แปลง JWT เป็น JSON
+        const decodedToken = JSON.parse(atob(token.split(".")[1])); // แปลง JWT เป็น JSON
         const expirationDate = decodedToken.exp * 1000; // ค่า exp ใน token จะเป็น timestamp ของการหมดอายุ
 
         if (Date.now() >= expirationDate) {
@@ -47,9 +48,15 @@ const PrivateRoute = () => {
     );
   }
 
-
   // ถ้ามี token และ token ยังไม่หมดอายุ ให้แสดง Outlet (หน้า admin หรือหน้าอื่นๆ)
-  return isAuthenticated ? <Outlet /> : <Navigate to="/login-admin" />;
+  return isAuthenticated ? (
+    <div className="flex theme">
+      <MakeSidebar />
+      <Outlet />
+    </div>
+  ) : (
+    <Navigate to="/login-admin" />
+  );
 };
 
 export default PrivateRoute;

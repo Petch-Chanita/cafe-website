@@ -1,6 +1,6 @@
 import { ChevronRightIcon } from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react";
-import { Tooltip } from 'react-tooltip'
+import { Tooltip } from "react-tooltip";
 
 interface SidebarItemProps {
   active?: boolean;
@@ -19,7 +19,7 @@ interface SubMenuItemProps extends Omit<SidebarItemProps, "expanded"> {
 }
 
 // This component is used to render the sub-menu items when hovered
-function HoveredSubMenuItem({ icon, text, active,onClick }: SubMenuItemProps) {
+function HoveredSubMenuItem({ icon, text, active, onClick }: SubMenuItemProps) {
   return (
     <div
       className={`sidebar-item my-1 rounded-md p-2  ${active && "active"}`}
@@ -69,7 +69,6 @@ function SidebarItem({
             setExpandSubMenu((curr) => expanded && !curr);
             if (onClick) onClick();
           }}
-
           data-tooltip-id="tooltip"
           data-tooltip-content={text}
           data-tooltip-place="right-end"
@@ -93,27 +92,29 @@ function SidebarItem({
             </div>
           )}
 
-        
           {!expanded && (
             <div
               className={`
-            submenu-item
+              z-50
+              submenu-item
             invisible absolute left-full ml-6 
             rounded-md
             py-1 text-sm opacity-20 transition-all
             group-hover:visible group-hover:translate-x-0 group-hover:opacity-100
         `}
             >
-              {!subMenu
-                ?  <Tooltip id="tooltip" />
-                : subMenu.map((item, index) => (
-                    <HoveredSubMenuItem
-                      key={index}
-                      text={item.text}
-                      icon={item.icon}
-                      onClick={item.onClick}
-                    />
-                  ))}
+              {!subMenu ? (
+                <Tooltip id="tooltip" />
+              ) : (
+                subMenu.map((item, index) => (
+                  <HoveredSubMenuItem
+                    key={index}
+                    text={item.text}
+                    icon={item.icon}
+                    onClick={item.onClick}
+                  />
+                ))
+              )}
             </div>
           )}
         </button>

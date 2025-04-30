@@ -1,10 +1,13 @@
-import { useEffect } from "react";
+import { useEffect, useReducer } from "react";
 import ImageBG from "../assets/img/bg1.jpg";
-import { useCafe } from "../contexts/CafeContext";
+// import { useCafe } from "../contexts/CafeContext";
 import { checkImageValid, getCafeData } from "../service/cafeService";
+import { cafeReducer, initialCafeState } from "../contexts/cafeReducer";
+import { useCafe } from "../contexts/CafeContext";
 
 const Home = () => {
-  const { state, dispatch } = useCafe();
+  const { setCafeData } = useCafe();
+  const [state, dispatch] = useReducer(cafeReducer, initialCafeState);
 
   useEffect(() => {
     const fetchCafe = async () => {
@@ -18,6 +21,9 @@ const Home = () => {
           const isValid = await checkImageValid(cafeData.image_url);
           dispatch({ type: "SET_VALID_IMAGE", payload: isValid });
         }
+        
+        setCafeData(cafeData);
+
       } catch (error: any) {
         dispatch({ type: "FETCH_ERROR", payload: error.message });
       }
