@@ -39,10 +39,10 @@ const LogoutModal = ({ isOpen, onOk, onCancel }: Props) => {
               <p>Are you sure you want to log out of your account?</p>{" "}
             </ModalBody>
             <ModalFooter>
-              <Button className="rounded-xl bg-gray-200 dark:bg-[#374961]" color="danger" variant="flat" onPress={onCancel}>
+              <Button  color="danger" variant="flat" onPress={onCancel}>
                 Close
               </Button>
-              <Button className="rounded-xl bg-[#e0e7ff] dark:bg-[#4f46e5]" color="primary" onPress={onOk}>
+              <Button  color="primary" onPress={onOk}>
              
                 OK
               </Button>
