@@ -9,6 +9,7 @@ import ProfilePage from "./components/admin/profile/ProfilePage";
 import MenuManagement from "./components/admin/menu-management/MenuManagement";
 import EmployeesPage from "./components/admin/employees/EmployeesPage";
 import SettingsPage from "./components/admin/settings/SettingsPage";
+import AddNewProduct from "./components/admin/menu-management/AddNewMenu";
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
             <Route path="home" element={<HomePage />} />
             <Route path="profile" element={<ProfilePage />} />
             <Route path="menu-management" element={<MenuManagement />} />
+            <Route path="add-new-menu" element={<AddNewProduct />} />
             <Route path="employees" element={<EmployeesPage />} />
             <Route path="settings" element={<SettingsPage />} />
           </Route>

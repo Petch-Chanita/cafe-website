@@ -50,7 +50,7 @@ const PrivateRoute = () => {
 
   // ถ้ามี token และ token ยังไม่หมดอายุ ให้แสดง Outlet (หน้า admin หรือหน้าอื่นๆ)
   return isAuthenticated ? (
-    <div className="flex theme">
+    <div className="flex theme h-screen">
       <MakeSidebar />
       <Outlet />
     </div>

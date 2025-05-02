@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom"; // ✅ เพิ่ม import
+import { useNavigate, useLocation } from "react-router-dom"; 
 import {
   HomeIcon,
   CogIcon,
@@ -17,8 +17,8 @@ import LogoutModal from "./settings/LogoutModal";
 import { useDisclosure } from "@heroui/react";
 
 function MakeSidebar() {
-  const navigate = useNavigate(); // ✅ ใช้เพื่อเปลี่ยนหน้า
-  const location = useLocation(); // ✅ ใช้เพื่อเช็คเส้นทางปัจจุบัน
+  const navigate = useNavigate();
+  const location = useLocation();
   const [expanded, setExpanded] = useState(true);
   const { isOpen, onOpen, onClose } = useDisclosure();
 

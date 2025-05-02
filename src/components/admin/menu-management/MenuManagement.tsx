@@ -25,6 +25,7 @@ import {
   Spinner,
   Chip,
   Button,
+  useDisclosure,
 } from "@heroui/react";
 
 import {
@@ -38,6 +39,9 @@ import { VerticalDotsIcon } from "../../../assets/svg/VerticalDotsIcon";
 import { SearchIcon } from "../../../assets/svg/SearchIcon";
 import { ChevronDownIcon } from "../../../assets/svg/ChevronDownIcon";
 import { PlusIcon } from "../../../assets/svg/PlusIcon";
+import { DeleteIcon } from "../../../assets/svg/DeleteIcon";
+import { useNavigate } from "react-router-dom";
+import ConfirmModal from "./confirmModal";
 
 const columns = [
   { name: "NAME", uid: "name" },
@@ -60,6 +64,7 @@ const statusColorMap: any = {
 };
 
 const MenuManagement = () => {
+  const navigate = useNavigate();
   const { products, setProducts } = useCafe();
   const [, dispatch] = useReducer(productReducer, initialProductState);
 
@@ -68,8 +73,10 @@ const MenuManagement = () => {
   const [filterValue, setFilterValue] = useState("");
   const hasSearchFilter = Boolean(filterValue);
   const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set([]));
+  const isSelectionEmpty = selectedKeys === "all" ? false : selectedKeys.size === 0;
 
   const cafe_id = import.meta.env.VITE_APP_CAFE_ID;
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const renderCell = useCallback((item: any, columnKey: any) => {
     console.log(item);
@@ -198,10 +205,21 @@ const MenuManagement = () => {
     }
   }, []);
 
-  const handleDelete = () => {
-    console.log("Deleting rows:", Array.from(selectedKeys));
+  const handleDeleteSelected = () => {
+    console.log("handleDeleteSelected", selectedKeys);
 
+    const idsToDelete = Array.from(selectedKeys);
+    const updatedProducts = memoizedProducts.filter(
+      (item: any) => !idsToDelete.includes(item.id)
+    );
+    setProducts(updatedProducts);
     setSelectedKeys(new Set());
+
+    onClose();
+  };
+
+  const handleAddNew = () => {
+    navigate("/admin-dashboard/add-new-menu");
   };
 
   const topContent = useMemo(() => {
@@ -250,6 +268,7 @@ const MenuManagement = () => {
               </DropdownMenu>
             </Dropdown>
             <Button
+              onClick={handleAddNew}
               className="bg-gradient-to-r from-blue-500 to-teal-400 text-white dark:from-blue-600 dark:to-teal-500 shadow-md rounded-xl py-5"
               endContent={<PlusIcon />}
               size="md"
@@ -259,9 +278,26 @@ const MenuManagement = () => {
           </div>
         </div>
         <div className="flex justify-between items-center">
-          <span className="text-default-400 text-small">
-            Total {products.length} Menu
-          </span>
+          <div className="flex justify-between items-center gap-5">
+            <span className="text-small">Total {products.length} Menu</span>
+
+            <div className="flex items-center">
+              <Button
+                onClick={onOpen}
+                disabled={isSelectionEmpty}
+                className={`items-center gap-2 rounded-xl font-semibold text-center transition disabled:opacity-50 disabled:cursor-not-allowed text-white px-4 py-2
+                  ${
+                    isSelectionEmpty
+                      ? "bg-gray-300 text-gray-500"
+                      : "bg-gradient-to-r from-rose-500 via-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 shadow-md"
+                  }
+                `}
+                size="md"
+              >
+                Delete <DeleteIcon />
+              </Button>
+            </div>
+          </div>
 
           <div className="flex justify-between items-center gap-10">
             <span className="text-small whitespace-nowrap min-w-[100px]">
@@ -302,6 +338,8 @@ const MenuManagement = () => {
     onRowsPerPageChange,
     products.length,
     hasSearchFilter,
+    selectedKeys,
+    isSelectionEmpty,
   ]);
 
   const loadingState = products?.length === 0 ? "loading" : "idle";
@@ -367,6 +405,8 @@ const MenuManagement = () => {
           )}
         </TableBody>
       </Table>
+
+      <ConfirmModal isOpen={isOpen} onOk={handleDeleteSelected} onCancel={onClose} />
     </div>
   );
 };
