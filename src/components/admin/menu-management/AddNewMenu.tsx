@@ -8,6 +8,8 @@ import {
   baseStyles,
   SelectItem,
   Select,
+  addToast,
+  Spinner,
 } from "@heroui/react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
@@ -16,9 +18,16 @@ import {
   createProduct,
   getCategory,
 } from "../../../service/productService";
-import CreatableSelect from "react-select/creatable";
 import { jwtDecode } from "jwt-decode";
 import { DecodedToken } from "../../../utils/Type";
+import { PlusIcon } from "../../../assets/svg/PlusIcon";
+
+const categoryStatusOptions = [
+  { key: "available", name: "Available" },
+  { key: "unavailable", name: "Unavailable" },
+  { key: "seasonal", name: "Seasonal" },
+  { key: "disabled", name: "Disabled" },
+];
 
 export default function AddNewProduct() {
   const navigate = useNavigate();
@@ -26,12 +35,37 @@ export default function AddNewProduct() {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [category, setCategory] = useState<any>();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const [newCategoryName, setNewCategoryName] = useState("");
+  const [checkStatus, setCheckStatus] = useState<boolean>(false);
+
+  const [query, setQuery] = useState("");
+  let decoded: DecodedToken | null = null;
+  if (token) {
+    decoded = jwtDecode(token);
+  }
+
+
+  const defaultForm = {
+    cafe_id: decoded?.cafe_id,
+    name: "",
+    price: "",
+    image: "",
+    category_id: "",
+    status: "",
+    description: "",
+  };
+  const [form, setForm] = useState(defaultForm);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      setPreviewUrl(URL.createObjectURL(file));
+      const url = URL.createObjectURL(file);
+      setPreviewUrl(url);
+
+      setForm((prev) => ({
+        ...prev,
+        image_file: file,
+        image_url: url,
+      }));
     }
   };
 
@@ -39,29 +73,34 @@ export default function AddNewProduct() {
     fileInputRef.current?.click();
   };
 
-  const [form, setForm] = useState({
-    name: "",
-    price: "",
-    image_url: "",
-    category_id: "",
-    status: "",
-    description: "",
-  });
-
   const handleChange = (field: string, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleSubmit = async () => {
-    console.log("Submitting:", form);
-    // await createProduct(form);
+    setCheckStatus(true);
+    try {
+      console.log("Submitting:", form);
+      await createProduct(form);
+      setCheckStatus(false);
+      resetValue();
+    } catch (error) {
+      setCheckStatus(false);
+
+      console.error("Error creating product:", error);
+    }
+  };
+
+  const resetValue = () => {
+    setForm(defaultForm);
+    setPreviewUrl(null);
   };
 
   const classNames = useMemo(
     () => ({
-      label: "mb-5 theme dark:!bg-[#243142]",
+      label: "mb-5 ",
       inputWrapper: "theme dark:!bg-[#243142] focus:!bg-[#1f2937]",
-      innerWrapper: "theme mt-2 dark:!bg-[#243142] ",
+      innerWrapper: " mt-2  ",
       mainWrapper: "theme ",
       input: "theme text-md",
     }),
@@ -83,72 +122,28 @@ export default function AddNewProduct() {
     console.log("Category", category);
   }, [category]);
 
-  const handleCategoryChange = async (newValue: any) => {
-    let decoded: DecodedToken | null = null;
-    if (token) {
-      decoded = jwtDecode(token);
-      //   console.log("User ID:", decoded.id);
+  const handleAddItem = async () => {
+    const newItem = query || `New item`;
+
+    if (!category.includes(newItem)) {
+      const newCategory = {
+        cafe_id: decoded?.cafe_id,
+        name: newItem.trim(),
+      };
+
+      await createCategory(newCategory);
+      await fetchCategory();
     }
 
-    if (newValue.__isNew__) {
-      if (!decoded) return;
-
-      try {
-        const newCategory = {
-          cafe_id: decoded.cafe_id,
-          name: newValue.label,
-        };
-
-        const resNewCategory = await createCategory(newCategory); // รอผลลัพธ์ก่อนใช้
-        console.log("New category created:", resNewCategory);
-
-        setCategory((prev: any[]) => [...prev, resNewCategory]);
-
-        setForm((prev) => ({
-          ...prev,
-          category_id: resNewCategory.id,
-        }));
-      } catch (error) {
-        console.error("Error creating new category:", error);
-      }
-    } else {
-      setForm((prev) => ({
-        ...prev,
-        category_id: newValue.value,
-      }));
-    }
-  };
-
-  const handleAddCategory = async () => {
-    if (!newCategoryName.trim()) return;
-
-    let decoded: DecodedToken | null = null;
-    if (token) {
-      decoded = jwtDecode(token);
-      //   console.log("User ID:", decoded.id);
-    }
-
-    const newCategory = {
-      cafe_id: decoded?.cafe_id,
-      name: newCategoryName.trim(),
-    };
-
-    const resNewCategory = await createCategory(newCategory);
-
-    // เพิ่มเข้า list และเซ็ตเป็นค่าที่เลือก
-    setCategory((prev: any) => [...prev, resNewCategory]);
-    handleChange("category_id", resNewCategory.id);
-    setNewCategoryName("");
+    setQuery("");
   };
 
   return (
     <div className="p-5 theme rounded-2xl shadow-2xl overflow-hidden">
-      {/* Header และ Padding ด้านบน */}
       <div className="p-5">
         <h2 className="font-semibold mb-6">Add New Menu</h2>
       </div>
 
-      {/* Scrollable area ไม่ใส่ padding ที่ wrapper */}
       <div className="h-[500px] overflow-y-auto">
         <Form className="w-full grid gap-4">
           {/* Image Upload */}
@@ -156,9 +151,10 @@ export default function AddNewProduct() {
             <Input
               type="file"
               accept="image/*"
-              onChange={handleImageChange}
+              onChange={handleImageChange} //
               ref={fileInputRef}
               className="hidden"
+              // value={form.image}
             />
 
             <div
@@ -206,50 +202,51 @@ export default function AddNewProduct() {
               isClearable
             />
 
-            {/* <Select
-              isRequired
-              name="Type"
-              placeholder="Select a category"
-              selectedKeys={[form.category_id]}
-              onChange={(e) => handleChange("category_id", e.target.value)}
-              classNames={{
-                trigger: "dark:!bg-[#243142] hover:!bg-[#1f2937]",
-                popoverContent: "theme",
-                listbox: "p-1",
-                base: "text-sm",
-              }}
-              size="lg"
-            >
-              <div className="px-2 py-1 border-b border-default-100">
+            <div className="mb-2 flex flex-col items-center gap-2">
+              <Select
+                isRequired
+                name="Type"
+                label="Type"
+                placeholder="e.g. Drinks"
+                selectedKeys={[form.category_id]}
+                onChange={(e) => handleChange("category_id", e.target.value)}
+                classNames={classNames}
+                size="md"
+              >
+                {category?.map((item: any) => (
+                  <SelectItem key={item.id}>{item.name}</SelectItem>
+                ))}
+              </Select>
+              <div className="mb-2 flex items-center gap-2">
                 <Input
-                  size="sm"
+                  size="md"
                   placeholder="Add new category"
-                  value={newCategoryName}
-                  onChange={(e) => setNewCategoryName(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      e.preventDefault();
-                      handleAddCategory();
-                    }
-                  }}
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  // classNames={classNames}
                 />
+                <Button size="md" variant="flat" onClick={handleAddItem}>
+                  <PlusIcon className="w-40 h-40" />
+                  Add
+                </Button>
               </div>
+            </div>
 
-              {category?.map((item: any) => (
-                <SelectItem key={item.id}>{item.name}</SelectItem>
-              ))}
-            </Select> */}
-
-            <Input
+            <Select
               isRequired
+              name="status"
               label="Status"
               placeholder="e.g. Available"
+              selectedKeys={[form.status]}
               value={form.status}
               onChange={(e) => handleChange("status", e.target.value)}
-              onClear={() => handleChange("status", "")}
               classNames={classNames}
-              isClearable
-            />
+              size="md"
+            >
+              {categoryStatusOptions.map((status) => (
+                <SelectItem key={status.key}>{status.name}</SelectItem>
+              ))}
+            </Select>
 
             <Textarea
               label="Description"
@@ -272,9 +269,26 @@ export default function AddNewProduct() {
         <Button
           color="primary"
           className="rounded-xl font-semibold"
-          onClick={handleSubmit}
+          // onClick={handleSubmit}
+          onPress={async () => {
+            try {
+              await handleSubmit();
+              addToast({
+                title: "Success",
+                description: "Insert new menu successfully",
+                color: "success",
+              });
+            } catch (err) {
+              addToast({
+                title: "Error",
+                description: "Insert new menu failed",
+                color: "danger",
+              });
+            }
+          }}
+          disabled={checkStatus}
         >
-          Add Menu
+          {checkStatus ? <Spinner color="white" /> : "Add Menu"}
         </Button>
       </div>
     </div>

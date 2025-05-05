@@ -26,13 +26,14 @@ import {
   Chip,
   Button,
   useDisclosure,
+  addToast,
 } from "@heroui/react";
 
 import {
   initialProductState,
   productReducer,
 } from "../../../contexts/productReducer";
-import { getProduct } from "../../../service/productService";
+import { deleteProduct, getProduct } from "../../../service/productService";
 import { useCafe } from "../../../contexts/CafeContext";
 import "./MenuManaement.css";
 import { VerticalDotsIcon } from "../../../assets/svg/VerticalDotsIcon";
@@ -41,7 +42,7 @@ import { ChevronDownIcon } from "../../../assets/svg/ChevronDownIcon";
 import { PlusIcon } from "../../../assets/svg/PlusIcon";
 import { DeleteIcon } from "../../../assets/svg/DeleteIcon";
 import { useNavigate } from "react-router-dom";
-import ConfirmModal from "./confirmModal";
+import ConfirmModal from "./ConfirmModal";
 
 const columns = [
   { name: "NAME", uid: "name" },
@@ -57,10 +58,9 @@ function capitalize(s: any) {
 
 const statusColorMap: any = {
   available: "success",
-  unavailable: "Default",
-  vacation: "warning",
-  disabled: "Primary",
-  seasonal: "Danger",
+  unavailable: "warning",
+  disabled: "default",
+  seasonal: "primary",
 };
 
 const MenuManagement = () => {
@@ -73,10 +73,15 @@ const MenuManagement = () => {
   const [filterValue, setFilterValue] = useState("");
   const hasSearchFilter = Boolean(filterValue);
   const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set([]));
-  const isSelectionEmpty = selectedKeys === "all" ? false : selectedKeys.size === 0;
+  const [itemToDelete, setItemToDelete] = useState<any>();
+  const isSelectionEmpty =
+    selectedKeys === "all" ? false : selectedKeys.size === 0;
 
   const cafe_id = import.meta.env.VITE_APP_CAFE_ID;
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [deleteMode, setDeleteMode] = useState<"single" | "multiple">(
+    "multiple"
+  );
 
   const renderCell = useCallback((item: any, columnKey: any) => {
     console.log(item);
@@ -131,10 +136,20 @@ const MenuManagement = () => {
                 </Button>
               </DropdownTrigger>
               <DropdownMenu className="theme">
-                <DropdownItem key="edit">Edit</DropdownItem>
+                <DropdownItem
+                  key="edit"
+                  onClick={() => handleUpdateMenu(item.id)}
+                >
+                  Edit
+                </DropdownItem>
                 <DropdownItem
                   key="delete"
                   className="text-red-600 hover:!text-red-600"
+                  onClick={() => {
+                    setDeleteMode("single");
+                    setItemToDelete(item);
+                    onOpen();
+                  }}
                 >
                   Delete
                 </DropdownItem>
@@ -166,6 +181,11 @@ const MenuManagement = () => {
       dispatch({
         type: "FETCH_PRODUCTS_FAILURE",
         payload: error.message,
+      });
+      addToast({
+        title: "Error",
+        description: "get product failed",
+        color: "danger",
       });
     }
   };
@@ -205,21 +225,68 @@ const MenuManagement = () => {
     }
   }, []);
 
-  const handleDeleteSelected = () => {
+  const handleDeleteSelected = async () => {
     console.log("handleDeleteSelected", selectedKeys);
 
-    const idsToDelete = Array.from(selectedKeys);
-    const updatedProducts = memoizedProducts.filter(
-      (item: any) => !idsToDelete.includes(item.id)
-    );
-    setProducts(updatedProducts);
-    setSelectedKeys(new Set());
+    try {
+      const idsToDelete: any = Array.from(selectedKeys);
+      console.log("idsToDelete", idsToDelete);
+      await deleteProduct(idsToDelete);
+      addToast({
+        title: "Success",
+        description: "Delete menu successfully",
+        color: "success",
+      });
+      const updatedProducts = memoizedProducts.filter(
+        (item: any) => !idsToDelete.includes(item.id)
+      );
+      setProducts(updatedProducts);
+      setSelectedKeys(new Set());
 
-    onClose();
+      onClose();
+    } catch (error) {
+      addToast({
+        title: "Error",
+        description: "Delete menu error",
+        color: "danger",
+      });
+      onClose();
+    }
+  };
+
+  const handleDelete = async (item_: any) => {
+    console.log("handleDelete", item_.id);
+    try {
+      await deleteProduct([item_.id]);
+      addToast({
+        title: "Success",
+        description: "Delete menu successfully",
+        color: "success",
+      });
+
+      const updatedProducts = memoizedProducts.filter(
+        (item: any) => item.id !== item_.id
+      );
+      setProducts(updatedProducts);
+
+      setItemToDelete("");
+      onClose();
+    } catch (error) {
+      addToast({
+        title: "Error",
+        description: "Delete menu failed",
+        color: "danger",
+      });
+      onClose();
+    }
   };
 
   const handleAddNew = () => {
     navigate("/admin-dashboard/add-new-menu");
+  };
+
+  const handleUpdateMenu = (id: string) => {
+    navigate(`/admin-dashboard/update-menu/${id}`);
   };
 
   const topContent = useMemo(() => {
@@ -344,10 +411,10 @@ const MenuManagement = () => {
 
   const loadingState = products?.length === 0 ? "loading" : "idle";
   return (
-    <div className="p-5 rounded-2xl theme shadow-2xl h-full">
+    <div className="p-5 rounded-2xl theme shadow-2xl h-full theme">
       <Table
         isCompact
-        removeWrapper
+        // removeWrapper
         color={"default"}
         aria-label="Example table with custom cells"
         selectionMode="multiple"
@@ -359,14 +426,14 @@ const MenuManagement = () => {
           },
         }}
         classNames={{
-          base: "theme overflow-hidden",
-          table: "theme rounded-xl",
-          th: "dark:bg-[#374961] bg-[#c7deff] font-semibold text-sm p-4 ",
+          // base: "theme ",
+          table: " rounded-xl min-w-full",
+          th: "sticky top-0 z-10 dark:bg-[#374961] bg-[#c7deff] font-semibold text-sm p-4 ",
           td: "text-sm p-4 transition-colors duration-200",
           tr: "transition-all duration-300",
           // thead: "rounded-t-lg ",
           tbody: "divide-y divide-gray-100",
-          wrapper: "max-h-[500px]",
+          wrapper: "max-h-[400px] overflow-y-auto theme",
         }}
         topContent={topContent}
         selectedKeys={selectedKeys}
@@ -406,7 +473,17 @@ const MenuManagement = () => {
         </TableBody>
       </Table>
 
-      <ConfirmModal isOpen={isOpen} onOk={handleDeleteSelected} onCancel={onClose} />
+      <ConfirmModal
+        isOpen={isOpen}
+        onOk={() => {
+          if (deleteMode === "single" && itemToDelete) {
+            handleDelete(itemToDelete);
+          } else {
+            handleDeleteSelected();
+          }
+        }}
+        onCancel={onClose}
+      />
     </div>
   );
 };

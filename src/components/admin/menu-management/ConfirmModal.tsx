@@ -36,10 +36,10 @@ export default function ConfirmModal({ isOpen, onOk, onCancel }: Props) {
         {(onCancel) => (
           <>
             <ModalHeader className="flex flex-col gap-1 justify-center items-center">
-              <h1 className="text-xl font-semibold theme">Delete Product</h1>
+              <h1 className="text-xl font-semibold theme">Delete Menu</h1>
             </ModalHeader>
             <ModalBody className="flex justify-center items-center">
-              <p>Are you sure you want to delete product?</p>{" "}
+              <p>Are you sure you want to delete menu?</p>{" "}
             </ModalBody>
             <ModalFooter>
               <Button color="danger" variant="flat" onPress={onCancel}>
